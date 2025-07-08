@@ -7,6 +7,9 @@ else
 	if ! [[ $REDIRECT_TARGET =~ ^https?:// ]]; then
 		REDIRECT_TARGET="https://$REDIRECT_TARGET"
 	fi
+
+	# Remove trailing slash if present
+	REDIRECT_TARGET="${REDIRECT_TARGET%/}"
 fi
 
 # Default to 80
