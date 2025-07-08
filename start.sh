@@ -8,10 +8,8 @@ else
 		REDIRECT_TARGET="https://$REDIRECT_TARGET"
 	fi
 
-	# Add trailing slash
-	if [[ ${REDIRECT_TARGET:length-1:1} != "/" ]]; then
-		REDIRECT_TARGET="$REDIRECT_TARGET/"
-	fi
+	# Remove trailing slash if present
+	REDIRECT_TARGET="${REDIRECT_TARGET%/}"
 fi
 
 # Default to 80
@@ -24,7 +22,7 @@ fi
 cat <<EOF > /etc/nginx/conf.d/default.conf
 server {
 	listen ${LISTEN};
-	rewrite ^/(.*)\$ ${REDIRECT_TARGET}\$1 permanent;
+	return 301 ${REDIRECT_TARGET}$request_uri;
 }
 EOF
 
