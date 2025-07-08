@@ -7,11 +7,6 @@ else
 	if ! [[ $REDIRECT_TARGET =~ ^https?:// ]]; then
 		REDIRECT_TARGET="https://$REDIRECT_TARGET"
 	fi
-
-	# Add trailing slash
-	if [[ ${REDIRECT_TARGET:length-1:1} != "/" ]]; then
-		REDIRECT_TARGET="$REDIRECT_TARGET/"
-	fi
 fi
 
 # Default to 80
@@ -24,7 +19,7 @@ fi
 cat <<EOF > /etc/nginx/conf.d/default.conf
 server {
 	listen ${LISTEN};
-	rewrite ^/(.*)\$ ${REDIRECT_TARGET}\$1 permanent;
+	rewrite ^(.*)\$ ${REDIRECT_TARGET}\$1 permanent;
 }
 EOF
 
